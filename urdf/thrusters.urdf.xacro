@@ -1,8 +1,8 @@
 <?xml version='1.0'?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="thruster">
 
-  <xacro:property name="thrusterCCW_path" value="package://calypso_sim/meshes/thrusters/T200_Thruster_CCW/meshes/"/>
-  <xacro:property name="thrusterCW_path" value="package://calypso_sim/meshes/thrusters/T200_Thruster_CW/meshes/"/>
+  <xacro:property name="thrusterCCW_path" value="file://$(find calypso2)/meshes/thrusters/T200_Thruster_CCW/meshes/"/>
+  <xacro:property name="thrusterCW_path" value="file://$(find calypso2)/meshes/thrusters/T200_Thruster_CW/meshes/"/>
 
    <xacro:macro name="thruster_CCW" params="id parent xyz rpy axis">
     <link name="thruster_${id}_link">
@@ -59,19 +59,19 @@
       <axis xyz="${axis}"/>
     </joint>
 
-    <transmission name="thruster_${id}_trainsmission" >
+    <!-- <transmission name="thruster_${id}_trainsmission" >
       <type>transmission_interface/SimpleTransmission</type>	
         <joint name="prop_${id}_to_thruster_${id}_joint">
           <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         </joint>
-      <actuator name="BLDC_motor_${id}">
+      <actuator name="thruster_${id}_motor">
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
-	  </transmission>
+	  </transmission> -->
 
     <gazebo>
-      <plugin name='blade_1_${id}' filename='libLiftDragPlugin.so'>
+      <plugin filename="ignition-gazebo-lift-drag-system" name="ignition::gazebo::systems::LiftDrag">
         <a0>0.3</a0>
         <alpha_stall>1.4</alpha_stall>
         <cla>4.2500</cla>
@@ -88,7 +88,7 @@
         <link_name>prop_${id}</link_name>
       </plugin>
 
-      <plugin name='blade_2_${id}' filename='libLiftDragPlugin.so'>
+      <plugin filename="ignition-gazebo-lift-drag-system" name="ignition::gazebo::systems::LiftDrag">
         <a0>0.3</a0>
         <alpha_stall>1.4</alpha_stall>
         <cla>4.2500</cla>
@@ -110,24 +110,6 @@
     <gazebo>
       <static>0</static>
       <allow_auto_disable>0</allow_auto_disable>
-    </gazebo>
-
-    <!-- <gazebo>
-    
-      <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
-        <switchService>switch</switchService>
-        <updateRate>100</updateRate>
-        <link>base_link</link>
-        
-        <thruster>
-            <map>${xyz} ${rpy}</map>
-            <effort>30</effort>
-        </thruster>
-      </plugin>
-    </gazebo> -->
-
-     <gazebo reference="prop_${id}">
-        <material>Gazebo/Red</material>
     </gazebo>
 
   </xacro:macro>
@@ -188,7 +170,7 @@
       <axis xyz="${axis}"/>
     </joint>
 
-    <transmission name="thruster_${id}_trainsmission" >
+    <!-- <transmission name="thruster_${id}_trainsmission" >
       <type>transmission_interface/SimpleTransmission</type>	
         <joint name="prop_${id}_to_thruster_${id}_joint">
           <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
@@ -197,10 +179,10 @@
         <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
-	  </transmission>
+	  </transmission> -->
 
     <gazebo>
-      <plugin name='blade_1_${id}' filename='libLiftDragPlugin.so'>
+      <plugin filename="ignition-gazebo-lift-drag-system" name="ignition::gazebo::systems::LiftDrag">
         <a0>0.3</a0>
         <alpha_stall>1.4</alpha_stall>
         <cla>4.2500</cla>
@@ -217,7 +199,7 @@
         <link_name>prop_${id}</link_name>
       </plugin>
 
-      <plugin name='blade_2_${id}' filename='libLiftDragPlugin.so'>
+      <plugin filename="ignition-gazebo-lift-drag-system" name="ignition::gazebo::systems::LiftDrag">
         <a0>0.3</a0>
         <alpha_stall>1.4</alpha_stall>
         <cla>4.2500</cla>
@@ -239,24 +221,7 @@
       <static>0</static>
       <allow_auto_disable>0</allow_auto_disable>
     </gazebo>
-
-  <!-- <gazebo>
-      <plugin name="freefloating_gazebo_control" filename="libfreefloating_gazebo_control.so">
-        <switchService>switch</switchService>
-        <updateRate>100</updateRate>
-        <link>base_link</link>
-        
-        <thruster>
-            <map>-1 0 0 0 0 ${-body_width/2}</map>
-            <effort>30</effort>
-        </thruster>
-      </plugin>
-  </gazebo> -->
-
-    <gazebo reference="prop_${id}">
-      <material>Gazebo/Green</material>
-    </gazebo>
-
+    
   </xacro:macro>
 
 </robot>
