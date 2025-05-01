@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" id="dvl">
+    
+    <xacro:macro name="dvl" params="id parent xyz rpy">
+        
+        <joint name="dvl_${id}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="${parent}"/>
+            <child link="dvl_${id}"/>
+        </joint>
+        
+        <link name="dvl_${id}">
+            <collision>
+                <geometry>
+                    <box size="0.1 0.1 0.1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                    <box size="0.1 0.1 0.1"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <inertial>
+                <mass value="0.0001" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+                <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0" />
+            </inertial>
+        </link>
+
+        <gazebo reference="dvl_${id}">
+             <plugin name="dvl_plugin" filename="libDVLPlugin.so">
+                <frame_id>dvl_link</frame_id>
+                <topic>/dvl/data</topic>
+            </plugin>
+        </gazebo>
+
+    </xacro:macro>
+    
+</robot>

@@ -1,0 +1,26 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    thruster_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+thruster_velocity_controller:
+  ros__parameters:
+    joints:
+      - prop_1_to_thruster_1_joint
+      - prop_2_to_thruster_2_joint
+      - prop_3_to_thruster_3_joint
+      - prop_4_to_thruster_4_joint
+      - prop_5_to_thruster_5_joint
+      - prop_6_to_thruster_6_joint
+      - prop_7_to_thruster_7_joint
+      - prop_8_to_thruster_8_joint
+    command_interfaces:
+      - velocity
+    state_interfaces:
+      - velocity
+      - position

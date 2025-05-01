@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:arg name="controller_config_path" default="/tmp/placeholder.yaml"/>
+  
+  <xacro:macro name="thruster_control" params="id">
+    <joint name = "prop_${id}_to_thruster_${id}_joint">
+      <command_interface  name="velocity"/>
+      <state_interface name="velocity"/>
+      <state_interface name="position"/>
+    </joint> 
+  </xacro:macro>
+
+  <xacro:macro name="ros2_control_block" params="controller_config_path">
+
+    <ros2_control name="GazeboSimSystem" type="system">
+
+      <hardware>
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </hardware>
+      
+      <xacro:thruster_control id="1"/>
+      <xacro:thruster_control id="2"/>
+      <xacro:thruster_control id="3"/>
+      <xacro:thruster_control id="4"/>
+      <xacro:thruster_control id="5"/>
+      <xacro:thruster_control id="6"/>
+      <xacro:thruster_control id="7"/>
+      <xacro:thruster_control id="8"/>  
+
+    </ros2_control>
+
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(arg controller_config_path)</parameters>
+    </plugin>
+        <plugin filename="ignition-gazebo-imu-system" name="ignition::gazebo::systems::Imu">
+    </plugin>
+  </gazebo>
+
+  </xacro:macro>
+
+</robot>

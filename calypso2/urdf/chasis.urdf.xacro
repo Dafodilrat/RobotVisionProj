@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="auv">
+  
+  <xacro:macro name="base_link" params="xyz rpy">
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.6" radius="0.2"/>
+      </geometry>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <material name="yellow"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.6" radius="0.2"/>
+      </geometry>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+    </collision>
+
+    <!-- <inertial>
+      <mass value="40"/>
+      <inertia ixx="1002084.26190628" ixy="-0.00000934" ixz="-0.00004849" iyy="1472890.49211890" iyz="1402.25179064" izz="689649.10160904"/>
+    </inertial> -->
+    
+    <inertial>
+      <mass value="2000.775"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </link>
+
+  </xacro:macro>
+
+</robot>

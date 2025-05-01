@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" id="imu">
+    
+    <xacro:macro name="imu" params="id parent xyz rpy">
+        
+        <joint name="imu_${id}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}"/>
+            <parent link="${parent}"/>
+            <child link="imu_${id}"/>
+        </joint>
+        
+        <link name="imu_${id}">
+            <collision>
+                <geometry>
+                    <box size="0.1 0.1 0.1"/>
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                    <box size="0.1 0.1 0.1"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <inertial>
+                <mass value="0.0001" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+                <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0" />
+            </inertial>
+        </link>
+
+        <link name="imu_${id}_top">
+            <collision>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+            </collision>
+            <visual>
+                <geometry>
+                    <box size="0.01 0.01 0.01"/>
+                </geometry>
+                <material name="blue"/>
+            </visual>
+            <inertial>
+                <mass value="0.0001" />
+                <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
+                <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0" />
+            </inertial>
+        </link>
+        <joint name="imu_${id}_top_joint" type="fixed">
+            <parent link="imu_${id}"/>
+            <child link="imu_${id}_top"/>
+            <origin xyz="0.0 0.0 0.05" rpy="0.0 0.0 0.0"/>
+        </joint>
+        
+
+        <gazebo reference="imu_${id}">
+
+            <sensor name="imu_${id}" type="imu">
+            <pose>0 0 0 0 0 0</pose>
+            <always_on>true</always_on>
+            <update_rate>100.0</update_rate>
+            <visualize>true</visualize>
+            <topic>imu/data</topic>
+            <gz_frame_id>imu_${id}</gz_frame_id>
+            <plugin name="ignition::gazebo::systems::Imu" filename="libignition-gazebo-sensors-system.so">
+                <topic>/imu/data</topic>
+            </plugin>
+            </sensor>
+
+        </gazebo>
+
+    </xacro:macro>
+
+    <!-- <link name="base_link">
+    </link>
+
+    <xacro:imu id="1" parent="base_link" xyz="0 0 0" rpy="0 0 0"></xacro:imu> -->
+    
+</robot>

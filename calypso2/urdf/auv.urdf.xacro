@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="auv">
+
+    <xacro:arg name="controller_config_path" default="/tmp/placeholder.yaml"/>
+
+    <xacro:include filename="thrusters.urdf.xacro"/>
+    <xacro:include filename="chasis.urdf.xacro"/>
+    <xacro:include filename="ros2_control.urdf.xacro"/>
+    <xacro:include filename="imu.urdf.xacro"/>
+    <xacro:include filename="dvl.urdf.xacro"/>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>  
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+    <material name="white">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+     <material name="yellow">
+        <color rgba="1 1 0 1"/>
+    </material>
+
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+    </material>
+
+    <!-- <xacro:property name="x" default="0"/>
+    <xacro:property name="y" default="0"/> -->
+
+    <xacro:base_link xyz="0 0 0" rpy="0 1.57 0 "></xacro:base_link>
+
+    <!-- 
+// 2:right upper 1->2 
+// 1:left upper  2->1
+// 4:left lower  3->4
+// 3:right lower 4->3 
+// 6->7 
+// 7->8
+// 8->6  
+
+-->
+    <!-- ${x}-0.32 ${y}-0.06 ${z}+0.1 -->
+
+    <xacro:thruster_CCW id="1" parent="base_link" xyz="0.25 0.32 -0.17" rpy="0 0 0" axis="0 0 -1">
+    </xacro:thruster_CCW>
+
+    <xacro:thruster_CW id="2" parent="base_link" xyz="0.25 -0.32 -0.17" rpy="0 0 0" axis="0 0 1">
+    </xacro:thruster_CW>
+
+    <xacro:thruster_CCW id="3" parent="base_link" xyz="-0.25 -0.32 -0.17" rpy="0 0 0" axis="0 0 -1" >
+    </xacro:thruster_CCW>
+
+    <xacro:thruster_CW id="4" parent="base_link" xyz="-0.25 0.32 -0.17" rpy="0 0 0" axis="0 0 1">
+    </xacro:thruster_CW>
+
+    <xacro:thruster_CW id="5" parent="base_link" xyz="0.45 0.2 0" rpy="0 1.57 2.35619" axis="0 0 1">
+    </xacro:thruster_CW>
+
+    <xacro:thruster_CCW id="6" parent="base_link" xyz="0.45 -0.2 0" rpy="0 1.57 3.92" axis="0 0 -1">
+    </xacro:thruster_CCW>
+
+    <xacro:thruster_CW id="7" parent="base_link" xyz="-0.45 -0.2 0" rpy="0 1.57 -0.785398" axis="0 0 1">
+    </xacro:thruster_CW>
+
+    <xacro:thruster_CCW id="8" parent="base_link" xyz="-0.45 0.2 0" rpy="0 1.57 0.785398" axis="0 0 -1">
+    </xacro:thruster_CCW>
+
+    <xacro:ros2_control_block controller_config_path="$(arg controller_config_path)"/>
+
+    <!-- <xacro:default_dvl namespace="calypso_sim" parent_link="base_link">
+      <origin xyz="0 0 -0.18" rpy="0 0 0"/>
+    </xacro:default_dvl> -->
+
+    <xacro:imu id="1" parent="base_link" xyz="0 0 0.15" rpy="0 0 0"/>
+    <!-- <xacro:dvl id="1" parent="base_link" xyz="0 0 -0.15" rpy="0 0 0"/> -->
+
+    <!-- <xacro:depth_cam id="1" parent="base_link" xyz="0.3 0 0" rpy="0 0 0"></xacro:depth_cam> -->
+    <plugin name="get_entity_state" filename="libgazebo_ros_state.so">
+        <ros>
+            <namespace>/ignition</namespace>
+        </ros>
+    </plugin>
+
+    <plugin name="pose_publisher" filename="libignition-gazebo-pose-publisher-system.so">
+        <publish_link_pose>true</publish_link_pose>
+        <publish_sensor_pose>true</publish_sensor_pose>
+        <publish_collision_pose>false</publish_collision_pose>
+        <publish_visual_pose>false</publish_visual_pose>
+        <publish_nested_model_pose>true</publish_nested_model_pose>
+        <use_pose_vector_msg>true</use_pose_vector_msg>
+        <static_publisher>true</static_publisher>
+        <static_update_frequency>1</static_update_frequency>
+    </plugin>
+  
+</robot>

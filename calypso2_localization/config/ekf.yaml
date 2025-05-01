@@ -1,0 +1,39 @@
+ekf_filter_node:
+  ros__parameters:
+    use_sim_time: true
+    print_diagnostics: true
+    frequency: 100.0
+    sensor_timeout: 0.5
+
+    two_d_mode: false
+    publish_tf: false
+
+    base_link_frame: base_link
+    world_frame: world
+    odom_frame: world
+
+    odom0: /calypso2/pose
+
+    odom0_config: [true, true, true,   # x, y, z
+                   false, false, false, # roll, pitch, yaw
+                   false, false, false,    # vx, vy, vz
+                   false, false, false] # wx, wy, wz
+    odom0_differential: false
+    odom0_relative: false
+
+    # imu0: /imu/data
+    # imu0_config: [false, false, false,
+    #               true,  true,  true,
+    #               false, false, false,
+    #               true,  true,  true,
+    #               false,  false,  false]
+
+    # imu0_nodelay: false
+    # imu0_differential: false
+    # imu0_relative: true
+    # imu0_queue_size: 100
+    # imu0_remove_gravitational_acceleration: true
+
+    # # imu0_pose_rejection_threshold: 0.8               # ~45° delta quaternion tolerance
+    # # imu0_twist_rejection_threshold: 1.0              # allows realistic angular velocities
+    # imu0_linear_acceleration_rejection_threshold: 0.01  # ~2.5 m/s² deviation allowed  
